@@ -1,0 +1,11 @@
+.card {
+    width: 200px;
+    background-image: linear-gradient(to top, #f5ebeb 0%, #faefef 100%);
+    text-align: center;
+    justify-content: center;
+    height: 200px; 
+    vertical-align: middle;
+    align-items: center;
+    margin: 5px;
+    text-decoration: none;
+  }
