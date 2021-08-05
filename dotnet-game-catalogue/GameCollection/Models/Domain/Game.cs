@@ -4,16 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace GameCollection.Models.Domain
 {
-    [Table("Games")]
     public class Game {
 
 
-        [Column("id")]  
+        [BsonId]
+        //[BsonRepresentation(BsonType.ObjectId)]
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
 
         public string Pic { get; set; }

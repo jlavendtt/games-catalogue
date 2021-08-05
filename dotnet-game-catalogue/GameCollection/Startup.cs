@@ -1,3 +1,4 @@
+using GameCollection.Models;
 using GameCollection.Models.Auth;
 using GameCollection.Repositories;
 using GameCollection.Services;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -35,11 +37,13 @@ namespace GameCollection
             string name = "name=ConnectionStrings:Db3";
             //services.AddControllersWithViews();
             //services.AddControllersWithViews();
+            services.Configure<CatalogueDbSettings>(Configuration.GetSection(nameof(CatalogueDbSettings)));
+            services.AddSingleton<ICatalogueDbSettings>(sp => sp.GetRequiredService<IOptions<CatalogueDbSettings>>().Value);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRatingService, RatingService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IUserRepo, DbUserRepo>();
-            services.AddScoped<IGameRepo, DbGameRepo>();
+            services.AddScoped<IGameRepo, MongoGameRepo>();
             services.AddScoped<IUserRatingRepo, DbUserRatingRepo>();
             services.AddAuthentication(o =>
             {
@@ -100,6 +104,7 @@ namespace GameCollection
             // ...
 
             services.AddDbContext<CollectionDbContext>((o) => o.UseSqlServer(name));
+            services.AddControllers().AddNewtonsoftJson(o => o.UseMemberCasing());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

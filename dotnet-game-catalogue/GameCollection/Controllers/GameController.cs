@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace GameCollection.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class GameController : Controller
     {
         IGameService _service;
